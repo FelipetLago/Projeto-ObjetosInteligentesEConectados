@@ -1,0 +1,474 @@
+[
+    {
+        "id": "3d02bbfc.5f4864",
+        "type": "tab",
+        "label": "Projeto-Bebedouro-MQTT",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "9b1f1ecc.a0dd3",
+        "type": "debug",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 590,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "5e42f3f3.338c3c",
+        "type": "function",
+        "z": "3d02bbfc.5f4864",
+        "name": "ledVermelho",
+        "func": "if(msg.payload > 5 & msg.payload <= 250) \nmsg.payload = true;\nelse msg.payload = false;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 450,
+        "y": 320,
+        "wires": [
+            [
+                "3f80bcb0.2aa504"
+            ]
+        ]
+    },
+    {
+        "id": "3f80bcb0.2aa504",
+        "type": "arduino out",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "pin": "2",
+        "state": "OUTPUT",
+        "arduino": "b7d3e4f8.4d8388",
+        "x": 630,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "5a842cad.159684",
+        "type": "ui_text",
+        "z": "3d02bbfc.5f4864",
+        "group": "887b965c.3dfc98",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "name": "",
+        "label": "Quantidade: ",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "x": 630,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "7dcc048d.c9a9ec",
+        "type": "function",
+        "z": "3d02bbfc.5f4864",
+        "name": "ledAmarelo",
+        "func": "if(msg.payload > 250 & msg.payload <= 290) \nmsg.payload = true;\nelse msg.payload = false;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 450,
+        "y": 380,
+        "wires": [
+            [
+                "3d3833c5.12a26c"
+            ]
+        ]
+    },
+    {
+        "id": "3d3833c5.12a26c",
+        "type": "arduino out",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "pin": "3",
+        "state": "OUTPUT",
+        "arduino": "b7d3e4f8.4d8388",
+        "x": 630,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "67d2a60a.6c3818",
+        "type": "function",
+        "z": "3d02bbfc.5f4864",
+        "name": "ledVerde",
+        "func": "if(msg.payload > 290) \nmsg.payload = true;\nelse msg.payload = false;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 440,
+        "wires": [
+            [
+                "fff8eb04.0c1c78"
+            ]
+        ]
+    },
+    {
+        "id": "fff8eb04.0c1c78",
+        "type": "arduino out",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "pin": "4",
+        "state": "OUTPUT",
+        "arduino": "b7d3e4f8.4d8388",
+        "x": 630,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "7bf485ab.309bac",
+        "type": "function",
+        "z": "3d02bbfc.5f4864",
+        "name": "Quantidade",
+        "func": "if(msg.payload <= 5){\n    msg.payload = \"Sem agua!\";\n}\n\nelse if(msg.payload > 5 & msg.payload <= 250){\n    msg.payload = \"Baixa\";\n}\nelse if(msg.payload > 250 & msg.payload <= 290){\n    msg.paylod = \"Media\";\n}\nelse{\n    msg.payload = \"Alta\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 430,
+        "y": 540,
+        "wires": [
+            [
+                "aff46feb.7fc5b",
+                "5a842cad.159684"
+            ]
+        ]
+    },
+    {
+        "id": "aff46feb.7fc5b",
+        "type": "debug",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 630,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "5be4ccb3.1b3564",
+        "type": "mqtt out",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "topic": "oic/nivel",
+        "qos": "2",
+        "retain": "",
+        "broker": "59c3923e.d9e9ec",
+        "x": 420,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "c6d1b7c4.b03778",
+        "type": "mqtt in",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "topic": "oic/nivel",
+        "qos": "2",
+        "broker": "59c3923e.d9e9ec",
+        "x": 280,
+        "y": 180,
+        "wires": [
+            [
+                "9b1f1ecc.a0dd3",
+                "5e42f3f3.338c3c",
+                "7dcc048d.c9a9ec",
+                "67d2a60a.6c3818",
+                "7bf485ab.309bac",
+                "ff62f63e.036268",
+                "e7e0010f.dbdbc",
+                "2102f13e.cd83ce"
+            ]
+        ]
+    },
+    {
+        "id": "19e08be6.5fa604",
+        "type": "arduino in",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "pin": "0",
+        "state": "ANALOG",
+        "arduino": "b7d3e4f8.4d8388",
+        "x": 230,
+        "y": 60,
+        "wires": [
+            [
+                "5be4ccb3.1b3564"
+            ]
+        ]
+    },
+    {
+        "id": "e7e0010f.dbdbc",
+        "type": "ui_gauge",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "group": "887b965c.3dfc98",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "",
+        "label": "",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "310",
+        "colors": [
+            "#bde6ff",
+            "#52bdff",
+            "#0087db"
+        ],
+        "seg1": "250",
+        "seg2": "290",
+        "x": 610,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ff62f63e.036268",
+        "type": "ui_chart",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "group": "887b965c.3dfc98",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "310",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "x": 610,
+        "y": 240,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "2102f13e.cd83ce",
+        "type": "function",
+        "z": "3d02bbfc.5f4864",
+        "name": "Valvula",
+        "func": "if(msg.payload <= 299 & msg.payload >= 25){\n    msg.payload = true;\n    msg.estado = \"Aberta\"\n    \n}\nelse{\n    msg.payload = false;\n    msg.estado = \"Fechada\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 420,
+        "y": 680,
+        "wires": [
+            [
+                "5590d115.a3a0c",
+                "3497b56b.18a2fa"
+            ]
+        ]
+    },
+    {
+        "id": "3497b56b.18a2fa",
+        "type": "arduino out",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "pin": "10",
+        "state": "OUTPUT",
+        "arduino": "b7d3e4f8.4d8388",
+        "x": 640,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "5590d115.a3a0c",
+        "type": "ui_text",
+        "z": "3d02bbfc.5f4864",
+        "group": "3ce80c4c.1aed14",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Estado: ",
+        "format": "{{msg.estado}}",
+        "layout": "row-center",
+        "x": 640,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "1d0e9c65.db1e54",
+        "type": "mqtt out",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "topic": "oic/valvula",
+        "qos": "",
+        "retain": "",
+        "broker": "59c3923e.d9e9ec",
+        "x": 1030,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "cd5fe9c4.72eaa8",
+        "type": "mqtt in",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "topic": "oic/valvula",
+        "qos": "2",
+        "broker": "59c3923e.d9e9ec",
+        "x": 820,
+        "y": 420,
+        "wires": [
+            [
+                "1c6d939a.7623dc"
+            ]
+        ]
+    },
+    {
+        "id": "ac3465f2.96f948",
+        "type": "arduino out",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "pin": "10",
+        "state": "OUTPUT",
+        "arduino": "b7d3e4f8.4d8388",
+        "x": 1040,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "f2b1bea7.000f8",
+        "type": "arduino in",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "pin": "10",
+        "state": "INPUT",
+        "arduino": "b7d3e4f8.4d8388",
+        "x": 830,
+        "y": 300,
+        "wires": [
+            [
+                "1d0e9c65.db1e54"
+            ]
+        ]
+    },
+    {
+        "id": "1c6d939a.7623dc",
+        "type": "ui_switch",
+        "z": "3d02bbfc.5f4864",
+        "name": "",
+        "label": "Ligar / Desligar",
+        "group": "3ce80c4c.1aed14",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 860,
+        "y": 500,
+        "wires": [
+            [
+                "a38590c3.2e91c"
+            ]
+        ]
+    },
+    {
+        "id": "a38590c3.2e91c",
+        "type": "function",
+        "z": "3d02bbfc.5f4864",
+        "name": "Valvula Lig/Des",
+        "func": "if(msg.payload === true){\n    msg.payload = true;\n    msg.estado = \"Aberta\"\n}\nelse{\n    if(msg.payload <= 299 & msg.payload >= 25){\n    msg.payload = true;\n    msg.estado = \"Aberta\"\n    \n    }\n    else{\n    msg.payload = false;\n    msg.estado = \"Fechada\"\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 840,
+        "y": 580,
+        "wires": [
+            [
+                "ac3465f2.96f948"
+            ]
+        ]
+    },
+    {
+        "id": "b7d3e4f8.4d8388",
+        "type": "arduino-board",
+        "z": "",
+        "device": "COM3"
+    },
+    {
+        "id": "887b965c.3dfc98",
+        "type": "ui_group",
+        "z": "",
+        "name": "Nivel de Agua",
+        "tab": "b0df1d92.0febc",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "59c3923e.d9e9ec",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    },
+    {
+        "id": "3ce80c4c.1aed14",
+        "type": "ui_group",
+        "z": "",
+        "name": "Valvula",
+        "tab": "b0df1d92.0febc",
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "b0df1d92.0febc",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard"
+    }
+]
